@@ -26,26 +26,21 @@ model Session {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@id([identifier, token])
-}
-
 // ─── Admin Module ─────────────────────────────────────────────────────────
 
 model AdminAppUsersRegistry {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  firstName     String
-  lastName      String
-  isActive      Boolean   @default(false)
-  activeEndDate DateTime?
-  createdAt     DateTime  @default(now())
+  id                String    @id @default(cuid())
+  email             String    @unique
+  firstName         String
+  lastName          String
+  isActive          Boolean   @default(false)
+  activeEndDate     DateTime?
+  password          String
+  mustResetPassword Boolean   @default(true)
+  emailVerified     DateTime?
+  createdAt         DateTime  @default(now())
 
-  userRoles     UserRole[]
+  userRoles         UserRole[]
 }
 
 model Role {
@@ -64,4 +59,3 @@ model UserRole {
 
   @@id([userId, roleId])
 }
-
