@@ -11,7 +11,10 @@ export default function Home() {
           width={100}
           height={20}
           priority
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
             To get started, edit the page.tsx file.
@@ -47,7 +50,10 @@ export default function Home() {
               alt="Vercel logomark"
               width={16}
               height={16}
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             Deploy Now
           </a>
           <a
