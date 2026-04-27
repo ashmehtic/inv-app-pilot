@@ -44,6 +44,8 @@ model AdminAppUsersRegistry {
   isActive      Boolean   @default(false)
   activeEndDate DateTime?
   createdAt     DateTime  @default(now())
+
+  userRoles     UserRole[]
 }
 
 model Role {
@@ -57,7 +59,8 @@ model UserRole {
   userId String
   roleId String
 
-  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user AdminAppUsersRegistry @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role                  @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@id([userId, roleId])
 }
