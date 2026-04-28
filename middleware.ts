@@ -13,6 +13,7 @@ export default auth((req) => {
   if (isLoggedIn && nextUrl.pathname === "/") {
     if (isMustReset) return NextResponse.redirect(new URL("/reset-password", nextUrl));
     return NextResponse.redirect(new URL("/dashboard", nextUrl));
+
   }
 
   // not logged in — redirect to login

@@ -26,7 +26,7 @@ export default function LoginPage() {
       redirect: false,
     });
 
-    if (!result?.ok) {
+    if (!result || result.error) {
       setError("Invalid email or password");
       setLoading(false);
       return;
@@ -36,7 +36,7 @@ export default function LoginPage() {
     if (session?.user?.mustResetPassword) {
       router.push("/reset-password");
     } else {
-      router.push("/(admin)/dashboard");
+      router.push("/dashboard");
     }
   }
 

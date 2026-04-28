@@ -33,7 +33,7 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    router.push("/(admin)/dashboard");
+    router.push("/dashboard");
   }
 
   return (
