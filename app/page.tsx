@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { signIn, getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,10 +20,24 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    // NextAuth signIn will be wired here
-    console.log({ email, password });
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    setLoading(false);
+    if (!result?.ok) {
+      setError("Invalid email or password");
+      setLoading(false);
+      return;
+    }
+
+    const session = await getSession();
+    if (session?.user?.mustResetPassword) {
+      router.push("/reset-password");
+    } else {
+      router.push("/(admin)/dashboard");
+    }
   }
 
   return (
