@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,7 +34,8 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    router.push("/dashboard");
+    await signOut({ redirect: false });
+    router.push("/");
   }
 
   return (
