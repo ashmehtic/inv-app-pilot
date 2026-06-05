@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Framework**: Next.js 14+ with App Router
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS + shadcn/ui
+- **Styling**: Tailwind CSS + shadcn/ui — always use theme tokens (`bg-primary`, `text-primary-foreground`, `bg-popover`, etc.) instead of hardcoded colors (`gray-900`, `white`, etc.)
 - **Database**: Vercel Postgres (Neon) via Prisma
 - **Auth**: NextAuth.js v5
 - **Validation**: Zod
@@ -52,8 +52,7 @@ app/
 
 components/
   ui/                   # shadcn/ui primitives — do not edit
-  admin/                # Admin-specific components
-  inventory/            # Inventory-specific components
+  custom/               # App-specific hand-written components
 
 lib/
   db.ts                 # Prisma client singleton
