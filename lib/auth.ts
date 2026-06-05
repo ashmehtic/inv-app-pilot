@@ -17,6 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const user = await prisma.adminAppUsersRegistry.findUnique({
           where: { email: credentials.email as string },
+          include: { userRoles: { include: { role: true } } },
         });
 
         if (!user) return null;
@@ -34,6 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           name: `${user.firstName} ${user.lastName}`,
           mustResetPassword: user.mustResetPassword,
+          roles: user.userRoles.map((ur) => ur.role.name),
         };
       },
     }),

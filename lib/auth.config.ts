@@ -8,11 +8,16 @@ export const authConfig: NextAuthConfig = {
   providers: [],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.mustResetPassword = (user as { mustResetPassword: boolean }).mustResetPassword;
+      if (user) {
+        const u = user as { mustResetPassword: boolean; roles: string[] };
+        token.mustResetPassword = u.mustResetPassword;
+        token.roles = u.roles;
+      }
       return token;
     },
     async session({ session, token }) {
       session.user.mustResetPassword = token.mustResetPassword as boolean;
+      session.user.roles = token.roles as string[];
       return session;
     },
   },
