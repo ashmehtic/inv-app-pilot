@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,16 @@ type ProductCategory = {
 
 const PAGE_SIZE = 10;
 
+type SortKey = keyof ProductCategory;
+type SortDir = "asc" | "desc";
+
+function SortIcon({ column, sortKey, sortDir }: { column: SortKey; sortKey: SortKey; sortDir: SortDir }) {
+  if (column !== sortKey) return <ChevronsUpDown className="inline w-3 h-3 ml-1 text-primary-foreground/50" />;
+  return sortDir === "asc"
+    ? <ChevronUp className="inline w-3 h-3 ml-1" />
+    : <ChevronDown className="inline w-3 h-3 ml-1" />;
+}
+
 export default function ProdCategoryPage({ categories }: { categories: ProductCategory[] }) {
   const [prodCategory, setProdCategory] = useState("");
   const [addActiveYN, setAddActiveYN] = useState("Y");
@@ -37,8 +48,33 @@ export default function ProdCategoryPage({ categories }: { categories: ProductCa
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(categories.length / PAGE_SIZE);
-  const paginated = categories.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const [sortKey, setSortKey] = useState<SortKey>("prodCategoryId");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const [sortWarning, setSortWarning] = useState("");
+
+  function handleSort(key: SortKey) {
+    if (key === "activeYN" && Object.keys(edits).length > 0) {
+      setSortWarning("Sort order on Active (Y/N) reflects saved values only. Save your changes first for accurate sorting.");
+    } else {
+      setSortWarning("");
+    }
+    if (key === sortKey) {
+      setSortDir(d => d === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+    setPage(1);
+  }
+
+  const sorted = [...categories].sort((a, b) => {
+    const aVal = a[sortKey].toLowerCase();
+    const bVal = b[sortKey].toLowerCase();
+    return sortDir === "asc" ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+
+  const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
+  const paginated = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
@@ -85,6 +121,7 @@ export default function ProdCategoryPage({ categories }: { categories: ProductCa
     } else {
       setEdits({});
       setSaveSuccess(true);
+      setSortWarning("");
     }
     setSaveLoading(false);
   }
@@ -133,12 +170,27 @@ export default function ProdCategoryPage({ categories }: { categories: ProductCa
 
       <Card>
         <CardContent className="pt-4">
+          {sortWarning && (
+            <p className="text-sm text-muted-foreground mb-3">{sortWarning}</p>
+          )}
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product Category ID</TableHead>
-                <TableHead>Product Category</TableHead>
-                <TableHead>Active (Y/N)</TableHead>
+            <TableHeader className="bg-primary">
+              <TableRow className="bg-primary text-primary-foreground hover:bg-primary border-primary">
+                <TableHead>
+                  <button onClick={() => handleSort("prodCategoryId")} className="flex items-center text-primary-foreground hover:text-primary-foreground/80">
+                    Product Category ID <SortIcon column="prodCategoryId" sortKey={sortKey} sortDir={sortDir} />
+                  </button>
+                </TableHead>
+                <TableHead>
+                  <button onClick={() => handleSort("prodCategory")} className="flex items-center text-primary-foreground hover:text-primary-foreground/80">
+                    Product Category <SortIcon column="prodCategory" sortKey={sortKey} sortDir={sortDir} />
+                  </button>
+                </TableHead>
+                <TableHead>
+                  <button onClick={() => handleSort("activeYN")} className="flex items-center text-primary-foreground hover:text-primary-foreground/80">
+                    Active (Y/N) <SortIcon column="activeYN" sortKey={sortKey} sortDir={sortDir} />
+                  </button>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -150,7 +202,7 @@ export default function ProdCategoryPage({ categories }: { categories: ProductCa
                 </TableRow>
               ) : (
                 paginated.map(row => (
-                  <TableRow key={row.prodCategoryId}>
+                  <TableRow key={row.prodCategoryId} className={edits[row.prodCategoryId] !== undefined ? "bg-primary/10" : ""}>
                     <TableCell>{row.prodCategoryId}</TableCell>
                     <TableCell>{row.prodCategory}</TableCell>
                     <TableCell>
