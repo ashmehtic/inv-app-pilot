@@ -34,7 +34,7 @@ export const config = {
     "/",
     "/reset-password",
     "/dashboard/:path*",
-    "/(admin)/:path*",
+    "/product-category/:path*",
     "/(inventory)/:path*",
   ],
 };

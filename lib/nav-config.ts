@@ -12,7 +12,10 @@ export const navConfig: Record<string, NavMenu[]> = {
   SUPER_ADMIN: [
     {
       label: "Admin",
-      items: [{ label: "Add Sites", href: "/admin/sites/add" }],
+      items: [
+        { label: "Add Sites", href: "/admin/sites/add" },
+        { label: "Add Product Category", href: "/product-category/add" },
+      ],
     },
   ],
   INV_APP_USER: [

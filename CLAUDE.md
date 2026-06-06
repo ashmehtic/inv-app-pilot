@@ -57,11 +57,13 @@ components/
 lib/
   db.ts                 # Prisma client singleton
   services/
-    admin.ts
-    inventory.ts
+    admin/              # Admin module services (one file per entity)
+      prod-category.ts
+    inventory/          # Inventory module services (one file per entity)
   validations/
-    admin.ts
-    inventory.ts
+    admin/              # Admin module validations (one file per entity)
+    inventory/          # Inventory module validations (one file per entity)
+  lookup-master/        # Static reference data (no DB calls)
 
 middleware.ts            # Auth guards and redirects
 types/index.ts           # Shared TypeScript interfaces

@@ -40,3 +40,11 @@ model UserRole {
 
   @@id([userId, roleId])
 }
+
+// ─── Admin Modules ─────────────────────────────────────────────────────────
+
+model ProductCategory {
+  prodCategoryId String @id
+  prodCategory   String @db.VarChar(25)
+  activeYN       String @default("Y") @db.Char(1)
+}
