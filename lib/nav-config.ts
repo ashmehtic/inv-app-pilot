@@ -13,7 +13,7 @@ export const navConfig: Record<string, NavMenu[]> = {
     {
       label: "Admin",
       items: [
-        { label: "Add Sites", href: "/admin/sites/add" },
+        { label: "Add Sites", href: "/sites/add" },
         { label: "Add Product Category", href: "/product-category/add" },
       ],
     },

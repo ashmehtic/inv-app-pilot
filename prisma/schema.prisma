@@ -48,3 +48,10 @@ model ProductCategory {
   prodCategory   String @db.VarChar(25)
   activeYN       String @default("Y") @db.Char(1)
 }
+
+model Site {
+  siteId      String @id
+  siteName    String @db.VarChar(50)
+  siteAddress String @db.VarChar(255)
+  activeYN    String @default("Y") @db.Char(1)
+}
