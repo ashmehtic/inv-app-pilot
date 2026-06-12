@@ -206,7 +206,12 @@ export default function ProductMasterPage({
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
-      <h1 className="text-2xl font-semibold">Add / Update Product Master</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Add / Update Product Master</h1>
+        <Button asChild variant="secondary">
+          <a href="/api/admin/product-master/export">Export All</a>
+        </Button>
+      </div>
 
       <Card>
         <CardHeader>
