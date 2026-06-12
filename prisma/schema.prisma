@@ -47,6 +47,21 @@ model ProductCategory {
   prodCategoryId String @id
   prodCategory   String @db.VarChar(25)
   activeYN       String @default("Y") @db.Char(1)
+
+  products Product[]
+}
+
+model Product {
+  productId       String @id
+  prodCategoryId  String
+  productName     String @db.VarChar(100)
+  productType     String @db.VarChar(20)
+  defaultQuantity Int
+  productUnit     String @db.VarChar(20)
+  trackProductYN  String @default("N") @db.Char(1)
+  activeYN        String @default("Y") @db.Char(1)
+
+  productCategory ProductCategory @relation(fields: [prodCategoryId], references: [prodCategoryId])
 }
 
 model Site {

@@ -15,6 +15,7 @@ export const navConfig: Record<string, NavMenu[]> = {
       items: [
         { label: "Add Sites", href: "/sites/add" },
         { label: "Add Product Category", href: "/product-category/add" },
+        { label: "Add / Update Product Master List", href: "/product-master/add" },
       ],
     },
   ],
