@@ -37,6 +37,7 @@ export const config = {
     "/product-category/:path*",
     "/sites/:path*",
     "/product-master/:path*",
+    "/program-templates/:path*",
     "/(inventory)/:path*",
   ],
 };

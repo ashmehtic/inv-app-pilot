@@ -18,6 +18,12 @@ export const navConfig: Record<string, NavMenu[]> = {
         { label: "Add / Update Product Master List", href: "/product-master/add" },
       ],
     },
+    {
+      label: "Program Templates",
+      items: [
+        { label: "Create New Program Template", href: "/program-templates/add" },
+      ],
+    },
   ],
   INV_APP_USER: [
     {

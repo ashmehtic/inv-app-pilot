@@ -62,6 +62,7 @@ model Product {
   activeYN        String @default("Y") @db.Char(1)
 
   productCategory ProductCategory @relation(fields: [prodCategoryId], references: [prodCategoryId])
+  templateDetails ProgramTemplatesDetails[]
 }
 
 model Site {
@@ -69,4 +70,26 @@ model Site {
   siteName    String @db.VarChar(50)
   siteAddress String @db.VarChar(255)
   activeYN    String @default("Y") @db.Char(1)
+}
+
+model ProgramTemplatesMaster {
+  progTemplateId   String @id
+  progTemplateName String @db.VarChar(100)
+  progNotes        String @db.VarChar(200)
+  activeYN         String @default("Y") @db.Char(1)
+
+  details ProgramTemplatesDetails[]
+}
+
+model ProgramTemplatesDetails {
+  progTemplateId String
+  productId      String
+  quantity       Int
+  productUnit    String @db.VarChar(20)
+  trackProductYN String @db.Char(1)
+
+  programTemplate ProgramTemplatesMaster @relation(fields: [progTemplateId], references: [progTemplateId])
+  product         Product                @relation(fields: [productId], references: [productId])
+
+  @@id([progTemplateId, productId])
 }
